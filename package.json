@@ -1,0 +1,14 @@
+{
+  "name": "mintpop",
+  "version": "1.0.0",
+  "description": "Discord bot that monitors and auto-scales a Rust server's max population via RCON",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "ws": "^8.18.0"
+  }
+}
