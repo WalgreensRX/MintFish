@@ -55,7 +55,7 @@ async function poll() {
   }
 }
 
-client.once('ready', () => {
+client.once('clientReady', () => {
   console.log(`[Bot] Logged in as ${client.user.tag}`);
   pop.reset();
   const interval = Number(process.env.POLL_INTERVAL_MS) || 30_000;
