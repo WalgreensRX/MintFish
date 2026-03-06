@@ -39,10 +39,10 @@ async function poll() {
       return;
     }
 
-    const { players } = status;
+    const { players, maxPlayers } = status;
     const { targetSlots, changed } = pop.tick(players);
 
-    if (changed) await rcon.setMaxPlayers(targetSlots);
+    if (changed || targetSlots !== maxPlayers) await rcon.setMaxPlayers(targetSlots);
 
     const template = process.env.STATUS_PLAYING || '🎮 {players} / {slots} online';
     const text = formatText(template, { players, slots: targetSlots });
