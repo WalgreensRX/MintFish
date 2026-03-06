@@ -4,6 +4,7 @@ const pop = require('./population');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 let pollTimer = null;
+let wasDisconnected = false;
 
 function formatText(template, vars) {
   return template.replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? `{${key}}`);
@@ -12,12 +13,19 @@ function formatText(template, vars) {
 async function poll() {
   try {
     if (!rcon.isConnected()) {
+      wasDisconnected = true;
       const text = process.env.STATUS_OFFLINE || '⛔ Server Offline';
       client.user.setPresence({
         activities: [{ name: text, type: ActivityType.Watching }],
         status: 'dnd',
       });
       return;
+    }
+
+    if (wasDisconnected) {
+      wasDisconnected = false;
+      pop.reset();
+      console.log('[Bot] RCON reconnected — resetting population tracker.');
     }
 
     const status = await rcon.getServerStatus();
