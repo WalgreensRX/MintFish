@@ -40,12 +40,17 @@ async function poll() {
     }
 
     const { players, maxPlayers } = status;
-    const { targetSlots, changed } = pop.tick(players);
+    const scalingEnabled = (process.env.POP_SCALING ?? 'true') === 'true';
+    let displaySlots = maxPlayers;
 
-    if (changed || targetSlots !== maxPlayers) await rcon.setMaxPlayers(targetSlots);
+    if (scalingEnabled) {
+      const { targetSlots, changed } = pop.tick(players);
+      if (changed || targetSlots !== maxPlayers) await rcon.setMaxPlayers(targetSlots);
+      displaySlots = targetSlots;
+    }
 
     const template = process.env.STATUS_PLAYING || '🎮 {players} / {slots} online';
-    const text = formatText(template, { players, slots: targetSlots });
+    const text = formatText(template, { players, slots: displaySlots });
     client.user.setPresence({
       activities: [{ name: text, type: ActivityType.Watching }],
       status: 'online',
