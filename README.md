@@ -1,3 +1,8 @@
+**MAJOR CHANGES TO BE DONE SOON**:
+- Add multi-server functionality
+- QOL Enhancements
+- Further population-related tooling
+
 # MintFish
 
 A Discord bot that monitors a Rust game server and automatically scales its max player slots based on current population, using RCON over WebSocket.
